@@ -32,9 +32,10 @@ class Batch
     private ?Amount $amount;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Ingredient::class)
+     * @ORM\ManyToOne(targetEntity=Ingredient::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private ?ArrayCollection $ingredients;
+    private $ingredient;
 
     public function __construct()
     {
@@ -70,28 +71,14 @@ class Batch
         return $this;
     }
 
-    /**
-     * @return Collection|Ingredient[]
-     */
-    public function getIngredients(): Collection
+    public function getIngredient(): ?Ingredient
     {
-        return $this->ingredients;
+        return $this->ingredient;
     }
 
-    public function addIngredient(Ingredient $ingredient): self
+    public function setIngredient(?Ingredient $ingredient): self
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(Ingredient $ingredient): self
-    {
-        if ($this->ingredients->contains($ingredient)) {
-            $this->ingredients->removeElement($ingredient);
-        }
+        $this->ingredient = $ingredient;
 
         return $this;
     }

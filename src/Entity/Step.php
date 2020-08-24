@@ -26,11 +26,6 @@ class Step
     private ?int $number;
 
     /**
-     * @ORM\Column(type="dateinterval")
-     */
-    private ?DateInterval $start;
-
-    /**
      * @ORM\ManyToMany(targetEntity=RequiredAmount::class)
      */
     private ?ArrayCollection $requiredAmounts;
@@ -39,6 +34,11 @@ class Step
      * @ORM\ManyToMany(targetEntity=ToolType::class)
      */
     private ?ArrayCollection $requiredTools;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $start;
 
     public function __construct()
     {
@@ -60,18 +60,6 @@ class Step
     public function setNumber(int $number): self
     {
         $this->number = $number;
-
-        return $this;
-    }
-
-    public function getStart(): ?DateInterval
-    {
-        return $this->start;
-    }
-
-    public function setStart(DateInterval $start): self
-    {
-        $this->start = $start;
 
         return $this;
     }
@@ -124,6 +112,18 @@ class Step
         if ($this->requiredTools->contains($requiredTool)) {
             $this->requiredTools->removeElement($requiredTool);
         }
+
+        return $this;
+    }
+
+    public function getStart(): ?\DateTimeInterface
+    {
+        return $this->start;
+    }
+
+    public function setStart(\DateTimeInterface $start): self
+    {
+        $this->start = $start;
 
         return $this;
     }
